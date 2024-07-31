@@ -1,6 +1,13 @@
+export enum GameState {
+  Waiting = "waiting",
+  Countdown = "countdown",
+  Question = "question",
+  Ended = "ended",
+}
+
 export default interface Game {
   id: string;
   name: string;
-  questionCount: number;
-  state: "waiting" | "countdown" | "question" | "ended";
+  question_count: number;
+  state: GameState;
 }

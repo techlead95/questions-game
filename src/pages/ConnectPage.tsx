@@ -1,6 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import PageLayout from "src/components/PageLayout";
 import { Button } from "src/components/ui/button";
 import {
@@ -21,7 +20,6 @@ const formSchema = z.object({
 
 export default function ConnectPage() {
   const connect = useWorldStore((state) => state.connect);
-  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -32,7 +30,6 @@ export default function ConnectPage() {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     connect(values.name);
-    navigate("/");
   };
 
   return (

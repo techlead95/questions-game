@@ -3,6 +3,7 @@ import ConnectPage from "./pages/ConnectPage";
 import GameListPage from "./pages/GameListPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
+import GameDetailPage from "./pages/GameDetailPage";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/",
+    path: "/games",
     element: (
       <ProtectedRoute>
         <Outlet />
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
       {
         path: "",
         element: <GameListPage />,
+      },
+      {
+        path: ":id",
+        element: <GameDetailPage />,
       },
     ],
   },

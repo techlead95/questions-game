@@ -11,11 +11,13 @@ import {
   TableHeader,
   TableRow,
 } from "src/components/ui/table";
+import useJoinGame from "src/hooks/useJoinGame";
 import useWorldStore from "src/stores/useWorldStore";
 
 export default function GameListPage() {
   const gamesLoaded = useWorldStore((state) => state.gamesLoaded);
   const games = useWorldStore((state) => state.games);
+  const joinGame = useJoinGame();
   const [createOpen, setCreateOpen] = useState(false);
 
   return (
@@ -41,10 +43,12 @@ export default function GameListPage() {
             {games.map((game) => (
               <TableRow key={game.id}>
                 <TableCell>{game.name}</TableCell>
-                <TableCell>{game.questionCount}</TableCell>
+                <TableCell>{game.question_count}</TableCell>
                 <TableCell>{game.state}</TableCell>
                 <TableCell>
-                  <Button variant="outline">New Game</Button>
+                  <Button variant="outline" onClick={() => joinGame(game.id)}>
+                    Join
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

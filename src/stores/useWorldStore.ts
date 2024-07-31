@@ -1,5 +1,7 @@
 import { Api } from "src/api";
-import Game from "src/models/Game";
+import Event from "src/models/Event";
+import Game, { GameState } from "src/models/Game";
+import { GameEventType } from "src/models/GameEvent";
 import PlayerCommand from "src/models/PlayerCommand";
 import { create } from "zustand";
 
@@ -23,7 +25,7 @@ interface WorldState {
 
 const api = new Api("http://localhost:8080");
 
-const useWorldStore = create<WorldState>((set) => {
+const useWorldStore = create<WorldState>((set, get) => {
   let socket: WebSocket;
 
   return {
@@ -47,8 +49,23 @@ const useWorldStore = create<WorldState>((set) => {
         set({ readyState: ReadyState.OPEN });
       };
 
-      socket.onmessage = (event) => {
-        JSON.parse(event.data);
+      socket.onmessage = (message) => {
+        const event: Event = JSON.parse(message.data);
+
+        switch (event.type) {
+          case GameEventType.Create:
+            set({
+              games: get().games.concat({
+                id: event.id,
+                name: event.payload.name,
+                question_count: event.payload.question_count,
+                state: GameState.Waiting,
+              }),
+            });
+            break;
+          default:
+            break;
+        }
       };
 
       socket.onclose = () => {

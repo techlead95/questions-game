@@ -19,6 +19,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Input } from "./ui/input";
+import useCreateGame from "src/hooks/useCreateGame";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
@@ -34,6 +35,8 @@ interface Props {
 }
 
 export default function CreateGameDialog({ open, onOpenChange }: Props) {
+  const createGame = useCreateGame();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -43,8 +46,8 @@ export default function CreateGameDialog({ open, onOpenChange }: Props) {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-
+    createGame(values.name, values.questionCount);
+    form.reset();
     onOpenChange(false);
   };
 

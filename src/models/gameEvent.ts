@@ -1,7 +1,7 @@
-interface BaseGameEvent {
+import { BaseEvent } from "./Event";
+
+interface BaseGameEvent extends BaseEvent {
   id: string;
-  type: GameEventType;
-  payload: unknown;
 }
 
 export enum GameEventType {
