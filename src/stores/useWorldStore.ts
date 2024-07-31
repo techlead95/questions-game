@@ -1,4 +1,6 @@
-import { GameEvent } from "src/models/game-events";
+import { Api } from "src/api";
+import Game from "src/models/game";
+import PlayerCommand from "src/models/playerCommand";
 import { create } from "zustand";
 
 export enum ReadyState {
@@ -9,25 +11,28 @@ export enum ReadyState {
   UNINSTANTIATED,
 }
 
-interface GameState {
+interface WorldState {
   readyState: ReadyState;
-  messages: any[];
-  sendEvent: (message: Message) => void;
+  games: Game[];
+  gamesLoaded: boolean;
+  sendCommand: (message: PlayerCommand) => void;
   setReadyState: (status: ReadyState) => void;
   connect: (name: string) => void;
+  disconnect: () => void;
 }
 
-type Message = any;
+const api = new Api("http://localhost:8080");
 
-const useGameStore = create<GameState>((set) => {
+const useWorldStore = create<WorldState>((set) => {
   let socket: WebSocket;
 
   return {
-    messages: [],
     readyState: ReadyState.UNINSTANTIATED,
-    sendEvent: (event: GameEvent) => {
-      if (socket && socket.readyState === ReadyState.OPEN) {
-        socket.send(JSON.stringify(event));
+    games: [],
+    gamesLoaded: false,
+    sendCommand: (command: PlayerCommand) => {
+      if (socket) {
+        socket.send(JSON.stringify(command));
       }
     },
     setReadyState: (status: ReadyState) => set({ readyState: status }),
@@ -43,23 +48,24 @@ const useGameStore = create<GameState>((set) => {
       };
 
       socket.onmessage = (event) => {
-        const message = JSON.parse(event.data);
-
-        set((state) => ({
-          messages: [...state.messages, message],
-        }));
+        JSON.parse(event.data);
       };
 
       socket.onclose = () => {
         set({ readyState: ReadyState.CLOSED });
       };
+
+      api.fetchGameList().then((games) => {
+        set({ games, gamesLoaded: true });
+      });
     },
     disconnect: () => {
       if (socket) {
         socket.close();
       }
+      set({ gamesLoaded: false, games: [] });
     },
   };
 });
 
-export default useGameStore;
+export default useWorldStore;

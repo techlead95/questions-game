@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "src/components/ui/form";
 import { Input } from "src/components/ui/input";
-import useGameStore from "src/stores/useGameStore";
+import useWorldStore from "src/stores/useWorldStore";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -20,7 +20,7 @@ const formSchema = z.object({
 });
 
 export default function ConnectPage() {
-  const connect = useGameStore((state) => state.connect);
+  const connect = useWorldStore((state) => state.connect);
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -32,13 +32,14 @@ export default function ConnectPage() {
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     connect(values.name);
-    navigate("/games");
+    navigate("/");
   };
 
   return (
     <PageLayout
       title="Connect to the World Server"
-      bodyClassName="justify-center mt-32"
+      bodyClassName="items-center mt-32"
+      hideDisconnect
     >
       <div className="max-w-sm w-full">
         <Form {...form}>

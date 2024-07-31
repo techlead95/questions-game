@@ -1,26 +1,53 @@
-import { useEffect } from "react";
-import useGameStore, { ReadyState } from "src/stores/useGameStore";
-import { uuid } from "src/utils";
+import CenteredLoading from "src/components/CenteredLoading";
+import PageLayout from "src/components/PageLayout";
+import { Button } from "src/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "src/components/ui/table";
+import useWorldStore from "src/stores/useWorldStore";
 
 export default function GameListPage() {
-  const messages = useGameStore((state) => state.messages);
-  const status = useGameStore((state) => state.readyState);
-  const sendMessage = useGameStore((state) => state.sendEvent);
+  const gamesLoaded = useWorldStore((state) => state.gamesLoaded);
+  const games = useWorldStore((state) => state.games);
 
-  useEffect(() => {
-    if (status === ReadyState.OPEN) {
-      sendMessage({
-        id: uuid,
-        payload: {
-          name: "NewGame",
-          question_count: 5,
-        },
-        type: "GameEventType",
-      });
-    }
-  }, [status]);
-
-  console.log(messages);
-
-  return <div>Test</div>;
+  return (
+    <PageLayout title="Games" pageActions={<Button>New Game</Button>}>
+      {!gamesLoaded ? (
+        <CenteredLoading />
+      ) : (
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Name</TableHead>
+              <TableHead>Question Count</TableHead>
+              <TableHead>State</TableHead>
+              <TableHead className="w-0" />
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {games.map((game) => (
+              <TableRow key={game.id}>
+                <TableCell>{game.name}</TableCell>
+                <TableCell>{game.questionCount}</TableCell>
+                <TableCell>{game.state}</TableCell>
+                <TableCell>
+                  <Button variant="outline">New Game</Button>
+                </TableCell>
+              </TableRow>
+            ))}
+            {!games.length && (
+              <TableRow>
+                <TableCell colSpan={4}>No games available.</TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      )}
+    </PageLayout>
+  );
 }
