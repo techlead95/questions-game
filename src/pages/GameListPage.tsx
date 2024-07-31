@@ -1,4 +1,6 @@
+import { useState } from "react";
 import CenteredLoading from "src/components/CenteredLoading";
+import CreateGameDialog from "src/components/CreateGameDialog";
 import PageLayout from "src/components/PageLayout";
 import { Button } from "src/components/ui/button";
 import {
@@ -14,9 +16,15 @@ import useWorldStore from "src/stores/useWorldStore";
 export default function GameListPage() {
   const gamesLoaded = useWorldStore((state) => state.gamesLoaded);
   const games = useWorldStore((state) => state.games);
+  const [createOpen, setCreateOpen] = useState(false);
 
   return (
-    <PageLayout title="Games" pageActions={<Button>New Game</Button>}>
+    <PageLayout
+      title="Games"
+      pageActions={
+        <Button onClick={() => setCreateOpen(true)}>New Game</Button>
+      }
+    >
       {!gamesLoaded ? (
         <CenteredLoading />
       ) : (
@@ -48,6 +56,7 @@ export default function GameListPage() {
           </TableBody>
         </Table>
       )}
+      <CreateGameDialog open={createOpen} onOpenChange={setCreateOpen} />
     </PageLayout>
   );
 }

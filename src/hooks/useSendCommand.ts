@@ -1,5 +1,5 @@
 import { useToast } from "src/components/ui/use-toast";
-import PlayerCommand from "src/models/playerCommand";
+import PlayerCommand from "src/models/PlayerCommand";
 import useWorldStore, { ReadyState } from "src/stores/useWorldStore";
 
 export default function useSendCommand() {

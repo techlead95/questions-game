@@ -16,7 +16,7 @@ import useWorldStore from "src/stores/useWorldStore";
 import { z } from "zod";
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
+  name: z.string().min(1, { message: "Name is required." }),
 });
 
 export default function ConnectPage() {

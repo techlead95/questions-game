@@ -1,6 +1,6 @@
 import { Api } from "src/api";
-import Game from "src/models/game";
-import PlayerCommand from "src/models/playerCommand";
+import Game from "src/models/Game";
+import PlayerCommand from "src/models/PlayerCommand";
 import { create } from "zustand";
 
 export enum ReadyState {
