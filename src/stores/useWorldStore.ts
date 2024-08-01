@@ -15,6 +15,7 @@ export enum ReadyState {
 
 interface WorldState {
   readyState: ReadyState;
+  currentPlayer: string;
   games: Record<string, Game>;
   gamesLoaded: boolean;
   lastEvent: Event | null;
@@ -31,6 +32,7 @@ const useWorldStore = create<WorldState>((set, get) => {
 
   return {
     readyState: ReadyState.UNINSTANTIATED,
+    currentPlayer: "",
     games: {},
     gamesLoaded: false,
     lastEvent: null,
@@ -44,6 +46,8 @@ const useWorldStore = create<WorldState>((set, get) => {
       if (socket) {
         socket.close();
       }
+
+      set({ currentPlayer: name });
 
       socket = new WebSocket(`ws://localhost:8080/connect?name=${name}`);
 
@@ -72,7 +76,31 @@ const useWorldStore = create<WorldState>((set, get) => {
             });
             break;
           case GameEventType.PlayerEnter:
-
+            set({
+              games: {
+                ...get().games,
+                [event.id]: {
+                  ...get().games[event.id],
+                  players: event.payload.players,
+                  player_ready: event.payload.players_ready,
+                },
+              },
+            });
+            break;
+          case GameEventType.PlayerReady:
+            set({
+              games: {
+                ...get().games,
+                [event.id]: {
+                  ...get().games[event.id],
+                  player_ready: {
+                    ...get().games[event.id].player_ready,
+                    [event.payload.player]: true,
+                  },
+                },
+              },
+            });
+            break;
           default:
             break;
         }

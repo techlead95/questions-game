@@ -40,18 +40,20 @@ export default function GameListPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {Object.values(games).map((game) => (
-              <TableRow key={game.id}>
-                <TableCell>{game.name}</TableCell>
-                <TableCell>{game.question_count}</TableCell>
-                <TableCell>{game.state}</TableCell>
-                <TableCell>
-                  <Button variant="outline" onClick={() => joinGame(game.id)}>
-                    Join
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
+            {Object.values(games)
+              .filter((game) => game.id)
+              .map((game) => (
+                <TableRow key={game.id}>
+                  <TableCell>{game.name}</TableCell>
+                  <TableCell>{game.question_count}</TableCell>
+                  <TableCell>{game.state}</TableCell>
+                  <TableCell>
+                    <Button variant="outline" onClick={() => joinGame(game.id)}>
+                      Join
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
             {!games.length && (
               <TableRow>
                 <TableCell colSpan={4}>No games available.</TableCell>

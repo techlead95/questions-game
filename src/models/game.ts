@@ -10,4 +10,6 @@ export default interface Game {
   name: string;
   question_count: number;
   state: GameState;
+  players?: string[];
+  player_ready?: Record<string, boolean>;
 }
