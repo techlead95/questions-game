@@ -40,7 +40,7 @@ export default function GameListPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {games.map((game) => (
+            {Object.values(games).map((game) => (
               <TableRow key={game.id}>
                 <TableCell>{game.name}</TableCell>
                 <TableCell>{game.question_count}</TableCell>

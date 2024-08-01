@@ -6,7 +6,7 @@ export default function GuestRoute({ children }: PropsWithChildren<{}>) {
   const readyState = useWorldStore((state) => state.readyState);
 
   if (readyState === ReadyState.OPEN) {
-    return <Navigate to="/games" />;
+    return <Navigate to="/" />;
   }
 
   return children;

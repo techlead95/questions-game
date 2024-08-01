@@ -15,8 +15,9 @@ export enum ReadyState {
 
 interface WorldState {
   readyState: ReadyState;
-  games: Game[];
+  games: Record<string, Game>;
   gamesLoaded: boolean;
+  lastEvent: Event | null;
   sendCommand: (message: PlayerCommand) => void;
   setReadyState: (status: ReadyState) => void;
   connect: (name: string) => void;
@@ -30,8 +31,9 @@ const useWorldStore = create<WorldState>((set, get) => {
 
   return {
     readyState: ReadyState.UNINSTANTIATED,
-    games: [],
+    games: {},
     gamesLoaded: false,
+    lastEvent: null,
     sendCommand: (command: PlayerCommand) => {
       if (socket) {
         socket.send(JSON.stringify(command));
@@ -52,17 +54,25 @@ const useWorldStore = create<WorldState>((set, get) => {
       socket.onmessage = (message) => {
         const event: Event = JSON.parse(message.data);
 
+        set({ lastEvent: event });
+        console.log({ event });
+
         switch (event.type) {
           case GameEventType.Create:
             set({
-              games: get().games.concat({
-                id: event.id,
-                name: event.payload.name,
-                question_count: event.payload.question_count,
-                state: GameState.Waiting,
-              }),
+              games: {
+                ...get().games,
+                [event.id]: {
+                  id: event.id,
+                  name: event.payload.name,
+                  question_count: event.payload.question_count,
+                  state: GameState.Waiting,
+                },
+              },
             });
             break;
+          case GameEventType.PlayerEnter:
+
           default:
             break;
         }
@@ -73,14 +83,20 @@ const useWorldStore = create<WorldState>((set, get) => {
       };
 
       api.fetchGameList().then((games) => {
-        set({ games, gamesLoaded: true });
+        set({
+          games: games.reduce<Record<string, Game>>((acc, cur) => {
+            acc[cur.id] = cur;
+            return acc;
+          }, {}),
+          gamesLoaded: true,
+        });
       });
     },
     disconnect: () => {
       if (socket) {
         socket.close();
       }
-      set({ gamesLoaded: false, games: [] });
+      set({ gamesLoaded: false, games: {} });
     },
   };
 });

@@ -15,7 +15,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/games",
+    path: "/",
     element: (
       <ProtectedRoute>
         <Outlet />
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
         element: <GameListPage />,
       },
       {
-        path: ":id",
+        path: "games/:id",
         element: <GameDetailPage />,
       },
     ],
