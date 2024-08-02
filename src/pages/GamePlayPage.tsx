@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CenteredLoading from "src/components/CenteredLoading";
 import PageLayout from "src/components/PageLayout";
 import { Label } from "src/components/ui/label";
@@ -13,10 +14,13 @@ import useWorldStore from "src/stores/useWorldStore";
 
 export default function GamePlayPage() {
   const gameId = useGameId();
-  const game = useWorldStore((state) => (gameId ? state.games[gameId] : null));
+  const activeGame = useWorldStore((state) => state.activeGame);
+
   const [question, setQuestion] = useState<GameQuestion | null>(null);
+  const [questionNumber, setQuestionNumber] = useState(0);
   const [answer, setAnswer] = useState("");
   const answerQuestion = useAnswerQuestion();
+  const navigate = useNavigate();
   const [tick, setTick] = useState(0);
 
   useSubcribeEvent((lastEvent) => {
@@ -24,6 +28,11 @@ export default function GamePlayPage() {
       setQuestion(lastEvent.payload);
       setAnswer("");
       setTick(0);
+      setQuestionNumber((prev) => prev + 1);
+    }
+
+    if (lastEvent.type === GameEventType.End) {
+      navigate(`/games/${gameId}/scores`);
     }
   });
 
@@ -42,11 +51,14 @@ export default function GamePlayPage() {
   }, [answer]);
 
   return (
-    <PageLayout title={`Game: ${game?.name ?? ""}`}>
-      {question ? (
+    <PageLayout title={`Game: ${activeGame?.name ?? ""}`}>
+      {activeGame && question ? (
         <>
           <Progress value={(tick * 100) / question.seconds} />
-          <Label htmlFor="question-option">{question.question}</Label>
+          <div>Total Question: {activeGame.question_count}</div>
+          <Label htmlFor="question-option">
+            {questionNumber}: {question.question}
+          </Label>
           <RadioGroup
             id="question-options"
             value={answer}

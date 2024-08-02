@@ -3,6 +3,7 @@ import Event from "src/models/Event";
 import Game, { GameState } from "src/models/Game";
 import { GameEventType } from "src/models/GameEvent";
 import PlayerCommand from "src/models/PlayerCommand";
+import PlayerScore from "src/models/PlayerScore";
 import { create } from "zustand";
 
 export enum ReadyState {
@@ -15,10 +16,12 @@ export enum ReadyState {
 
 interface WorldState {
   readyState: ReadyState;
-  currentPlayer: string;
-  games: Record<string, Game>;
-  gamesLoaded: boolean;
   lastEvent: Event | null;
+  currentPlayer: string;
+  games: Game[];
+  gamesLoaded: boolean;
+  activeGame: ActiveGame | null;
+  scores: PlayerScore[];
   sendCommand: (message: PlayerCommand) => void;
   setReadyState: (status: ReadyState) => void;
   connect: (name: string) => void;
@@ -32,10 +35,12 @@ const useWorldStore = create<WorldState>((set, get) => {
 
   return {
     readyState: ReadyState.UNINSTANTIATED,
-    currentPlayer: "",
-    games: {},
-    gamesLoaded: false,
     lastEvent: null,
+    currentPlayer: "",
+    games: [],
+    gamesLoaded: false,
+    activeGame: null,
+    scores: [],
     sendCommand: (command: PlayerCommand) => {
       if (socket) {
         socket.send(JSON.stringify(command));
@@ -43,10 +48,6 @@ const useWorldStore = create<WorldState>((set, get) => {
     },
     setReadyState: (status: ReadyState) => set({ readyState: status }),
     connect: (name: string) => {
-      if (socket) {
-        socket.close();
-      }
-
       set({ currentPlayer: name });
 
       socket = new WebSocket(`ws://localhost:8080/connect?name=${name}`);
@@ -57,48 +58,43 @@ const useWorldStore = create<WorldState>((set, get) => {
 
       socket.onmessage = (message) => {
         const event: Event = JSON.parse(message.data);
-
         set({ lastEvent: event });
+
         console.log({ event });
 
         switch (event.type) {
           case GameEventType.Create:
             set({
-              games: {
-                ...get().games,
-                [event.id]: {
-                  id: event.id,
-                  name: event.payload.name,
-                  question_count: event.payload.question_count,
-                  state: GameState.Waiting,
-                },
-              },
+              games: get().games.concat({
+                id: event.id,
+                name: event.payload.name,
+                question_count: event.payload.question_count,
+                state: GameState.Waiting,
+              }),
             });
             break;
           case GameEventType.PlayerEnter:
             set({
-              games: {
-                ...get().games,
-                [event.id]: {
-                  ...get().games[event.id],
-                  players: event.payload.players,
-                  player_ready: event.payload.players_ready,
-                },
-              },
+              activeGame: event.payload,
             });
             break;
           case GameEventType.PlayerReady:
-            set({
-              games: {
-                ...get().games,
-                [event.id]: {
-                  ...get().games[event.id],
-                  player_ready: {
-                    ...get().games[event.id].player_ready,
+            const activeGame = get().activeGame;
+            if (activeGame) {
+              set({
+                activeGame: {
+                  ...activeGame,
+                  players_ready: {
+                    ...activeGame.players_ready,
                     [event.payload.player]: true,
                   },
                 },
-              },
+              });
+            }
+            break;
+          case GameEventType.End:
+            set({
+              scores: event.payload.scores,
             });
             break;
           default:
@@ -112,10 +108,7 @@ const useWorldStore = create<WorldState>((set, get) => {
 
       api.fetchGameList().then((games) => {
         set({
-          games: games.reduce<Record<string, Game>>((acc, cur) => {
-            acc[cur.id] = cur;
-            return acc;
-          }, {}),
+          games,
           gamesLoaded: true,
         });
       });
@@ -124,7 +117,7 @@ const useWorldStore = create<WorldState>((set, get) => {
       if (socket) {
         socket.close();
       }
-      set({ gamesLoaded: false, games: {} });
+      set({ gamesLoaded: false, games: [] });
     },
   };
 });

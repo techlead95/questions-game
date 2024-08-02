@@ -21,18 +21,18 @@ import useGameId from "src/hooks/useGameId";
 
 export default function GameReadyPage() {
   const gameId = useGameId();
-  const game = useWorldStore((state) => (gameId ? state.games[gameId] : null));
+  const activeGame = useWorldStore((state) => state.activeGame);
   const currentPlayer = useWorldStore((state) => state.currentPlayer);
   const readyGame = useReadyGame();
   const startGame = useStartGame();
   const navigate = useNavigate();
 
-  const players = game?.players || [];
-  const playerReady = game?.player_ready || {};
+  const players = activeGame?.players || [];
+  const playersReady = activeGame?.players_ready || {};
 
   const startDisabled = useMemo(() => {
-    return players.some((player) => !playerReady[player]);
-  }, [players, playerReady]);
+    return players.some((player) => !playersReady[player]);
+  }, [players, playersReady]);
 
   useSubcribeEvent((lastEvent) => {
     if (lastEvent.type === GameEventType.Start && lastEvent.id === gameId) {
@@ -42,7 +42,7 @@ export default function GameReadyPage() {
 
   return (
     <PageLayout
-      title={`Game: ${game?.name ?? ""}`}
+      title={`Game: ${activeGame?.name ?? ""}`}
       pageActions={
         <Button
           disabled={startDisabled}
@@ -72,13 +72,13 @@ export default function GameReadyPage() {
                 <TableCell>{player}</TableCell>
                 <TableCell>
                   <Checkbox
-                    checked={playerReady[player] ?? false}
+                    checked={playersReady[player] ?? false}
                     onCheckedChange={(checked) => {
                       if (checked && gameId) {
                         readyGame(gameId);
                       }
                     }}
-                    disabled={currentPlayer !== player || playerReady[player]}
+                    disabled={currentPlayer !== player || playersReady[player]}
                   />
                 </TableCell>
               </TableRow>
