@@ -54,26 +54,28 @@ export default function GamePlayPage() {
     <PageLayout title={`Game: ${activeGame?.name ?? ""}`}>
       {activeGame && question ? (
         <>
-          <Progress value={(tick * 100) / question.seconds} />
-          <div>Total Question: {activeGame.question_count}</div>
-          <Label htmlFor="question-option">
-            {questionNumber}: {question.question}
-          </Label>
-          <RadioGroup
-            id="question-options"
-            value={answer}
-            onValueChange={(value) => setAnswer(value)}
-          >
-            {question.options.map((option, index) => (
-              <div key={option} className="flex items-center space-x-2">
-                <RadioGroupItem
-                  value={String(index)}
-                  id={`question-option-${index}`}
-                />
-                <Label htmlFor={`question-option-${index}`}>{option}</Label>
-              </div>
-            ))}
-          </RadioGroup>
+          <div className="flex flex-col gap-4">
+            <div className="text-right">
+              Question {questionNumber} of {activeGame.question_count}
+            </div>
+            <Progress value={(tick * 100) / question.seconds} />
+            <Label htmlFor="question-option">{question.question}</Label>
+            <RadioGroup
+              id="question-options"
+              value={answer}
+              onValueChange={(value) => setAnswer(value)}
+            >
+              {question.options.map((option, index) => (
+                <div key={option} className="flex items-center space-x-2">
+                  <RadioGroupItem
+                    value={String(index)}
+                    id={`question-option-${index}`}
+                  />
+                  <Label htmlFor={`question-option-${index}`}>{option}</Label>
+                </div>
+              ))}
+            </RadioGroup>
+          </div>
         </>
       ) : (
         <CenteredLoading />

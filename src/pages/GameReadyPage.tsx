@@ -18,6 +18,7 @@ import { useMemo } from "react";
 import useSubcribeEvent from "src/hooks/useSubcribeEvent";
 import { GameEventType } from "src/models/GameEvent";
 import useGameId from "src/hooks/useGameId";
+import PageActions from "src/components/PageActions";
 
 export default function GameReadyPage() {
   const gameId = useGameId();
@@ -41,50 +42,52 @@ export default function GameReadyPage() {
   });
 
   return (
-    <PageLayout
-      title={`Game: ${activeGame?.name ?? ""}`}
-      pageActions={
-        <Button
-          disabled={startDisabled}
-          onClick={() => {
-            if (gameId) {
-              startGame(gameId);
-            }
-          }}
-        >
-          Start Game
-        </Button>
-      }
-    >
-      {!players.length ? (
-        <CenteredLoading />
-      ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Player</TableHead>
-              <TableHead>Ready</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {players.map((player) => (
-              <TableRow key={player}>
-                <TableCell>{player}</TableCell>
-                <TableCell>
-                  <Checkbox
-                    checked={playersReady[player] ?? false}
-                    onCheckedChange={(checked) => {
-                      if (checked && gameId) {
-                        readyGame(gameId);
-                      }
-                    }}
-                    disabled={currentPlayer !== player || playersReady[player]}
-                  />
-                </TableCell>
+    <PageLayout title={`Game: ${activeGame?.name ?? ""}`}>
+      {players.length ? (
+        <>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Player</TableHead>
+                <TableHead>Ready</TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {players.map((player) => (
+                <TableRow key={player}>
+                  <TableCell>{player}</TableCell>
+                  <TableCell>
+                    <Checkbox
+                      checked={playersReady[player] ?? false}
+                      onCheckedChange={(checked) => {
+                        if (checked && gameId) {
+                          readyGame(gameId);
+                        }
+                      }}
+                      disabled={
+                        currentPlayer !== player || playersReady[player]
+                      }
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <PageActions>
+            <Button
+              disabled={startDisabled}
+              onClick={() => {
+                if (gameId) {
+                  startGame(gameId);
+                }
+              }}
+            >
+              Start Game
+            </Button>
+          </PageActions>
+        </>
+      ) : (
+        <CenteredLoading />
       )}
     </PageLayout>
   );

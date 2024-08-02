@@ -22,8 +22,10 @@ interface WorldState {
   gamesLoaded: boolean;
   activeGame: ActiveGame | null;
   scores: PlayerScore[];
+  errorMessage: string;
   sendCommand: (message: PlayerCommand) => void;
   setReadyState: (status: ReadyState) => void;
+  clearErrorMessage: () => void;
   connect: (name: string) => void;
   disconnect: () => void;
 }
@@ -41,12 +43,14 @@ const useWorldStore = create<WorldState>((set, get) => {
     gamesLoaded: false,
     activeGame: null,
     scores: [],
+    errorMessage: "",
     sendCommand: (command: PlayerCommand) => {
       if (socket) {
         socket.send(JSON.stringify(command));
       }
     },
     setReadyState: (status: ReadyState) => set({ readyState: status }),
+    clearErrorMessage: () => set({ errorMessage: "" }),
     connect: (name: string) => {
       set({ currentPlayer: name });
 
@@ -57,10 +61,19 @@ const useWorldStore = create<WorldState>((set, get) => {
       };
 
       socket.onmessage = (message) => {
-        const event: Event = JSON.parse(message.data);
+        const messageData = JSON.parse(message.data);
+
+        if (messageData.error) {
+          set({ errorMessage: messageData.error });
+          return;
+        }
+
+        const event: Event = messageData;
         set({ lastEvent: event });
 
         console.log({ event });
+
+        const activeGame = get().activeGame;
 
         switch (event.type) {
           case GameEventType.Create:
@@ -78,8 +91,17 @@ const useWorldStore = create<WorldState>((set, get) => {
               activeGame: event.payload,
             });
             break;
+          case GameEventType.PlayerJoin:
+            if (activeGame) {
+              set({
+                activeGame: {
+                  ...activeGame,
+                  players: activeGame.players.concat(event.payload.player),
+                },
+              });
+            }
+            break;
           case GameEventType.PlayerReady:
-            const activeGame = get().activeGame;
             if (activeGame) {
               set({
                 activeGame: {

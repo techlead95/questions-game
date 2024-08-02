@@ -20,9 +20,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Input } from "./ui/input";
 import useCreateGame from "src/hooks/useCreateGame";
-import { useNavigate } from "react-router-dom";
-import { GameEventType } from "src/models/GameEvent";
-import useSubcribeEvent from "src/hooks/useSubcribeEvent";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Name is required." }),
@@ -39,7 +36,6 @@ interface Props {
 
 export default function CreateGameDialog({ open, onOpenChange }: Props) {
   const createGame = useCreateGame();
-  const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -47,15 +43,6 @@ export default function CreateGameDialog({ open, onOpenChange }: Props) {
       name: "",
       questionCount: 0,
     },
-  });
-
-  useSubcribeEvent((lastEvent) => {
-    if (
-      lastEvent.type === GameEventType.PlayerEnter &&
-      lastEvent.payload.name === form.getValues().name
-    ) {
-      navigate(`/games/${lastEvent.id}/ready`);
-    }
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {

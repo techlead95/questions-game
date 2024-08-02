@@ -33,31 +33,25 @@ export default function ConnectPage() {
   };
 
   return (
-    <PageLayout
-      title="Connect to the World Server"
-      bodyClassName="items-center mt-32"
-      hideDisconnect
-    >
-      <div className="max-w-sm w-full">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Your Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Connect</Button>
-          </form>
-        </Form>
-      </div>
+    <PageLayout title="Connect to the World Server">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Your Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Connect</Button>
+        </form>
+      </Form>
     </PageLayout>
   );
 }
