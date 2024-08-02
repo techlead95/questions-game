@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "src/components/ui/form";
 import { Input } from "src/components/ui/input";
-import useWorldStore from "src/stores/useWorldStore";
+import useStore from "src/stores/useStore";
 import { z } from "zod";
 
 const formSchema = z.object({
@@ -19,7 +19,7 @@ const formSchema = z.object({
 });
 
 export default function ConnectPage() {
-  const connect = useWorldStore((state) => state.connect);
+  const connect = useStore((state) => state.connect);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

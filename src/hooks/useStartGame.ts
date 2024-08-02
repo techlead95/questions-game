@@ -1,9 +1,9 @@
 import { PlayerCommandType } from "src/models/PlayerCommand";
-import useWorldStore from "src/stores/useWorldStore";
+import useStore from "src/stores/useStore";
 import { uuid } from "src/utils";
 
 export default function useStartGame() {
-  const sendCommand = useWorldStore((state) => state.sendCommand);
+  const sendCommand = useStore((state) => state.sendCommand);
 
   return (gameId: string) => {
     sendCommand({

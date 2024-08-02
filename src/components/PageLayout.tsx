@@ -1,5 +1,5 @@
 import { PropsWithChildren, useEffect } from "react";
-import useWorldStore from "src/stores/useWorldStore";
+import useStore from "src/stores/useStore";
 import { useToast } from "./ui/use-toast";
 
 interface Props {
@@ -10,8 +10,8 @@ export default function PageLayout({
   title,
   children,
 }: PropsWithChildren<Props>) {
-  const errorMessage = useWorldStore((state) => state.errorMessage);
-  const clearErrorMessage = useWorldStore((state) => state.clearErrorMessage);
+  const errorMessage = useStore((state) => state.errorMessage);
+  const clearErrorMessage = useStore((state) => state.clearErrorMessage);
   const { toast } = useToast();
 
   useEffect(() => {

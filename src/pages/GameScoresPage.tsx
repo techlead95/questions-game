@@ -10,11 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "src/components/ui/table";
-import useWorldStore from "src/stores/useWorldStore";
+import useStore from "src/stores/useStore";
 
 export default function GameScoresPage() {
-  const activeGame = useWorldStore((state) => state.activeGame);
-  const scores = useWorldStore((state) => state.scores);
+  const activeGame = useStore((state) => state.activeGame);
+  const scores = useStore((state) => state.scores);
   const navigate = useNavigate();
 
   return (

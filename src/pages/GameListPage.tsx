@@ -13,17 +13,19 @@ import {
   TableRow,
 } from "src/components/ui/table";
 import useJoinGame from "src/hooks/useJoinGame";
-import useWorldStore from "src/stores/useWorldStore";
+import useStore from "src/stores/useStore";
 import { useNavigate } from "react-router-dom";
 import { GameEventType } from "src/models/GameEvent";
 import useSubcribeEvent from "src/hooks/useSubcribeEvent";
+import { GameState } from "src/models/Game";
 
 export default function GameListPage() {
-  const gamesLoaded = useWorldStore((state) => state.gamesLoaded);
-  const games = useWorldStore((state) => state.games);
+  const gamesLoaded = useStore((state) => state.gamesLoaded);
+  const games = useStore((state) => Object.values(state.gamesById));
   const joinGame = useJoinGame();
   const [createOpen, setCreateOpen] = useState(false);
   const navigate = useNavigate();
+  const disconnect = useStore((state) => state.disconnect);
 
   useSubcribeEvent((lastEvent) => {
     if (lastEvent.type === GameEventType.PlayerEnter) {
@@ -56,6 +58,7 @@ export default function GameListPage() {
                     <TableCell>{game.state}</TableCell>
                     <TableCell>
                       <Button
+                        disabled={game.state !== GameState.Waiting}
                         variant="outline"
                         onClick={() => joinGame(game.id)}
                       >
@@ -73,6 +76,9 @@ export default function GameListPage() {
           </Table>
           <PageActions>
             <Button onClick={() => setCreateOpen(true)}>New Game</Button>
+            <Button variant="outline" onClick={() => disconnect()}>
+              Disconnect
+            </Button>
           </PageActions>
         </>
       )}

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import PageLayout from "src/components/PageLayout";
-import useWorldStore from "src/stores/useWorldStore";
+import useStore from "src/stores/useStore";
 import {
   Table,
   TableBody,
@@ -22,8 +22,8 @@ import PageActions from "src/components/PageActions";
 
 export default function GameReadyPage() {
   const gameId = useGameId();
-  const activeGame = useWorldStore((state) => state.activeGame);
-  const currentPlayer = useWorldStore((state) => state.currentPlayer);
+  const activeGame = useStore((state) => state.activeGame);
+  const currentPlayer = useStore((state) => state.currentPlayer);
   const readyGame = useReadyGame();
   const startGame = useStartGame();
   const navigate = useNavigate();
@@ -74,16 +74,18 @@ export default function GameReadyPage() {
             </TableBody>
           </Table>
           <PageActions>
-            <Button
-              disabled={startDisabled}
-              onClick={() => {
-                if (gameId) {
-                  startGame(gameId);
-                }
-              }}
-            >
-              Start Game
-            </Button>
+            {currentPlayer === players[0] && (
+              <Button
+                disabled={startDisabled}
+                onClick={() => {
+                  if (gameId) {
+                    startGame(gameId);
+                  }
+                }}
+              >
+                Start Game
+              </Button>
+            )}
           </PageActions>
         </>
       ) : (

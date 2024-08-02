@@ -9,5 +9,6 @@ export default interface Game {
   id: string;
   name: string;
   question_count: number;
+  player_count: number;
   state: GameState;
 }

@@ -10,11 +10,11 @@ import useGameId from "src/hooks/useGameId";
 import useSubcribeEvent from "src/hooks/useSubcribeEvent";
 import { GameEventType } from "src/models/GameEvent";
 import GameQuestion from "src/models/GameQuestion";
-import useWorldStore from "src/stores/useWorldStore";
+import useStore from "src/stores/useStore";
 
 export default function GamePlayPage() {
   const gameId = useGameId();
-  const activeGame = useWorldStore((state) => state.activeGame);
+  const activeGame = useStore((state) => state.activeGame);
 
   const [question, setQuestion] = useState<GameQuestion | null>(null);
   const [questionNumber, setQuestionNumber] = useState(0);

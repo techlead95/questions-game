@@ -1,9 +1,9 @@
 import { PropsWithChildren } from "react";
 import { Navigate } from "react-router-dom";
-import useWorldStore, { ReadyState } from "src/stores/useWorldStore";
+import useStore, { ReadyState } from "src/stores/useStore";
 
 export default function GuestRoute({ children }: PropsWithChildren<{}>) {
-  const readyState = useWorldStore((state) => state.readyState);
+  const readyState = useStore((state) => state.readyState);
 
   if (readyState === ReadyState.OPEN) {
     return <Navigate to="/" />;

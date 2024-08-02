@@ -1,4 +1,5 @@
 import { BaseEvent } from "./Event";
+import { GameState } from "./Game";
 import GameQuestion from "./GameQuestion";
 import PlayerScore from "./PlayerScore";
 
@@ -39,7 +40,7 @@ interface GameEventStateChange extends BaseGameEvent {
 }
 
 interface GameEventStateChange {
-  state: string;
+  state: GameState;
 }
 
 interface GameEventPlayerCount extends BaseGameEvent {
