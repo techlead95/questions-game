@@ -4,6 +4,7 @@ import GameListPage from "./pages/GameListPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import GuestRoute from "./components/GuestRoute";
 import GameReadyPage from "./pages/GameReadyPage";
+import GamePlayPage from "./pages/GamePlayPage";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "games/:id/ready",
         element: <GameReadyPage />,
+      },
+      {
+        path: "games/:id",
+        element: <GamePlayPage />,
       },
     ],
   },

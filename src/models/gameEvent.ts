@@ -1,5 +1,6 @@
 import { BaseEvent } from "./Event";
 import GameQuestion from "./GameQuestion";
+import PlayerScore from "./PlayerScore";
 
 interface BaseGameEvent extends BaseEvent {
   id: string;
@@ -61,11 +62,6 @@ interface GameEventStart extends BaseGameEvent {
 interface GameEventEnd extends BaseGameEvent {
   type: GameEventType.End;
   payload: GameEventEndPayload;
-}
-
-interface PlayerScore {
-  name: string;
-  score: number;
 }
 
 interface GameEventEndPayload {
