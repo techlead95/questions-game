@@ -5,3 +5,11 @@ services:
     image: captrivia-be
     ports:
       - "8080:8080"
+  fe:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - be
