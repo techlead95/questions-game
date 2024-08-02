@@ -1,4 +1,5 @@
 import { BaseEvent } from "./Event";
+import GameQuestion from "./GameQuestion";
 
 interface BaseGameEvent extends BaseEvent {
   id: string;
@@ -83,12 +84,7 @@ interface GameEventQuestion extends BaseGameEvent {
   type: GameEventType.Question;
   payload: GameEventQuestionPayload;
 }
-interface GameEventQuestionPayload {
-  id: string;
-  options: string[];
-  question: string;
-  seconds: number;
-}
+type GameEventQuestionPayload = GameQuestion;
 
 interface GameEventPlayerEnter extends BaseGameEvent {
   type: GameEventType.PlayerEnter;
