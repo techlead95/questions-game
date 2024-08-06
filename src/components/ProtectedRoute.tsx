@@ -5,8 +5,6 @@ import useStore, { ReadyState } from "src/stores/useStore";
 export default function ProtectedRoute({ children }: PropsWithChildren<{}>) {
   const readyState = useStore((state) => state.readyState);
 
-  console.log({ readyState });
-
   if (readyState === ReadyState.OPEN) {
     return children;
   }
