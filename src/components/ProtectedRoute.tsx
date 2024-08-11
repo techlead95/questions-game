@@ -1,11 +1,11 @@
 import { PropsWithChildren } from "react";
 import { Navigate } from "react-router-dom";
-import useStore, { ReadyState } from "src/stores/useStore";
+import useStore from "src/stores/useStore";
 
 export default function ProtectedRoute({ children }: PropsWithChildren<{}>) {
-  const readyState = useStore((state) => state.readyState);
+  const currentPlayer = useStore((state) => state.currentPlayer);
 
-  if (readyState === ReadyState.OPEN) {
+  if (currentPlayer) {
     return children;
   }
 

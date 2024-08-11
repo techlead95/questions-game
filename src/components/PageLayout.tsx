@@ -1,6 +1,5 @@
-import { PropsWithChildren, useEffect } from "react";
-import useStore from "src/stores/useStore";
-import { useToast } from "./ui/use-toast";
+import { PropsWithChildren } from "react";
+import useHandleError from "src/hooks/useHandleError";
 
 interface Props {
   title: String;
@@ -10,18 +9,7 @@ export default function PageLayout({
   title,
   children,
 }: PropsWithChildren<Props>) {
-  const errorMessage = useStore((state) => state.errorMessage);
-  const clearErrorMessage = useStore((state) => state.clearErrorMessage);
-  const { toast } = useToast();
-
-  useEffect(() => {
-    if (errorMessage) {
-      toast({
-        description: errorMessage,
-      });
-      clearErrorMessage();
-    }
-  }, [errorMessage]);
+  useHandleError();
 
   return (
     <div className="flex justify-center">

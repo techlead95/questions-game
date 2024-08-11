@@ -97,7 +97,7 @@ const useStore = create<StoreState>((set, get) => {
       if (socket) {
         socket.close();
       }
-      set({ gamesLoaded: false, gamesById: {} });
+      set({ gamesLoaded: false, gamesById: {}, currentPlayer: "" });
     },
   };
 });
