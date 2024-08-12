@@ -5,7 +5,7 @@ import PlayerCommand from "src/models/PlayerCommand";
 import PlayerScore from "src/models/PlayerScore";
 import { create } from "zustand";
 import handleGamesEvent from "./handleGamesEvent";
-import handleActiveGameEvents from "./handleActiveGamesEvent";
+import handleActiveGameEvents from "./handleActiveGameEvent";
 
 export enum ReadyState {
   CONNECTING,
