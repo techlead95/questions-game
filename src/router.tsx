@@ -1,15 +1,15 @@
-import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
-import ConnectPage from "./pages/ConnectPage";
-import GameListPage from "./pages/GameListPage";
-import ProtectedRoute from "./components/ProtectedRoute";
-import GuestRoute from "./components/GuestRoute";
-import GameReadyPage from "./pages/GameReadyPage";
-import GamePlayPage from "./pages/GamePlayPage";
-import GameScoresPage from "./pages/GameScoresPage";
+import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
+import ConnectPage from './pages/ConnectPage';
+import GameListPage from './pages/GameListPage';
+import ProtectedRoute from './components/ProtectedRoute';
+import GuestRoute from './components/GuestRoute';
+import GameReadyPage from './pages/GameReadyPage';
+import GamePlayPage from './pages/GamePlayPage';
+import GameScoresPage from './pages/GameScoresPage';
 
 const router = createBrowserRouter([
   {
-    path: "/connect",
+    path: '/connect',
     element: (
       <GuestRoute>
         <ConnectPage />
@@ -17,11 +17,11 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "",
+    path: '',
     element: <Navigate to="/games" replace />,
   },
   {
-    path: "/games",
+    path: '/games',
     element: (
       <ProtectedRoute>
         <Outlet />
@@ -29,23 +29,23 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "",
+        path: '',
         element: <GameListPage />,
       },
       {
-        path: ":id",
+        path: ':id',
         element: <Outlet />,
         children: [
           {
-            path: "ready",
+            path: 'ready',
             element: <GameReadyPage />,
           },
           {
-            path: "",
+            path: '',
             element: <GamePlayPage />,
           },
           {
-            path: "scores",
+            path: 'scores',
             element: <GameScoresPage />,
           },
         ],

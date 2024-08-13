@@ -1,5 +1,5 @@
 import { BaseEvent } from './Event';
-import { GameState } from './_Game';
+import { GameState } from './Game';
 import GameQuestion from './GameQuestion';
 import PlayerScore from './PlayerScore';
 

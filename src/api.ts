@@ -1,5 +1,5 @@
 import { Axios } from 'axios';
-import Game from './models/_Game';
+import Game from './models/Game';
 
 export class Api {
   url: string;

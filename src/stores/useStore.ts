@@ -1,11 +1,10 @@
-import { Api } from "src/api";
-import Event from "src/models/Event";
-import Game from "src/models/Game";
-import PlayerCommand from "src/models/PlayerCommand";
-import PlayerScore from "src/models/PlayerScore";
-import { create } from "zustand";
-import handleGamesEvent from "./handleGamesEvent";
-import handleActiveGameEvents from "./handleActiveGameEvent";
+import { create } from 'zustand';
+import Game from '@/models/Game';
+import PlayerCommand from '@/models/playerCommand';
+import PlayerScore from '@/models/PlayerScore';
+import { Api } from '@/api';
+import handleActiveGameEvents from './handleActiveGameEvent';
+import handleGamesEvent from './handleGamesEvent';
 
 export enum ReadyState {
   CONNECTING,
@@ -31,7 +30,7 @@ export interface StoreState {
   disconnect: () => void;
 }
 
-const api = new Api("http://localhost:8080");
+const api = new Api('http://localhost:8080');
 
 const useStore = create<StoreState>((set, get) => {
   let socket: WebSocket;
@@ -46,19 +45,19 @@ const useStore = create<StoreState>((set, get) => {
   return {
     readyState: ReadyState.UNINSTANTIATED,
     lastEvent: null,
-    currentPlayer: "",
+    currentPlayer: '',
     gamesById: {},
     gamesLoaded: false,
     activeGame: null,
     scores: [],
-    errorMessage: "",
+    errorMessage: '',
     sendCommand: (command: PlayerCommand) => {
       if (socket) {
         socket.send(JSON.stringify(command));
       }
     },
     setReadyState: (status: ReadyState) => set({ readyState: status }),
-    clearErrorMessage: () => set({ errorMessage: "" }),
+    clearErrorMessage: () => set({ errorMessage: '' }),
     connect: (name: string) => {
       set({ currentPlayer: name });
 
@@ -97,7 +96,7 @@ const useStore = create<StoreState>((set, get) => {
       if (socket) {
         socket.close();
       }
-      set({ gamesLoaded: false, gamesById: {}, currentPlayer: "" });
+      set({ gamesLoaded: false, gamesById: {}, currentPlayer: '' });
     },
   };
 });
