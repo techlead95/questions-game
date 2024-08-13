@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 
 import useStore from '@/stores/useStore';
+import { capitalize } from '@/utils';
 
 export default function useHandleError() {
   const errorMessage = useStore((state) => state.errorMessage);
@@ -12,7 +13,8 @@ export default function useHandleError() {
   useEffect(() => {
     if (errorMessage) {
       toast({
-        description: errorMessage,
+        description: capitalize(errorMessage),
+        variant: 'destructive',
       });
       clearErrorMessage();
     }

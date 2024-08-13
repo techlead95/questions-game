@@ -41,6 +41,12 @@ export default function useGamePlay() {
   const [answered, setAsnwered] = useState(false);
   const currentPlayer = useStore((state) => state.currentPlayer);
 
+  useEffect(() => {
+    if (activeGame && questionNumber > activeGame.question_count) {
+      navigate(`/games/${gameId}/scores`);
+    }
+  }, [activeGame, questionNumber]);
+
   useSubcribeEvent((lastEvent) => {
     if (lastEvent.type === GameEventType.Question) {
       setQuestion(lastEvent.payload);
