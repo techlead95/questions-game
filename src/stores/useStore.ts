@@ -1,9 +1,12 @@
 import { create } from 'zustand';
+
 import Game from '@/models/Game';
-import PlayerCommand from '@/models/playerCommand';
+import PlayerCommand from '@/models/PlayerCommand';
 import PlayerScore from '@/models/PlayerScore';
 import WorldEvent from '@/models/WorldEvent';
+
 import { Api } from '@/api';
+
 import handleActiveGameEvents from './handleActiveGameEvent';
 import handleGamesEvent from './handleGamesEvent';
 

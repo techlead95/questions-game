@@ -18,10 +18,6 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: '',
-    element: <Navigate to="/games" replace />,
-  },
-  {
     path: '/games',
     element: (
       <ProtectedRoute>
@@ -30,7 +26,7 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: '',
+        index: true,
         element: <GameListPage />,
       },
       {
@@ -38,12 +34,12 @@ const router = createBrowserRouter([
         element: <Outlet />,
         children: [
           {
-            path: 'ready',
-            element: <GameReadyPage />,
+            index: true,
+            element: <GamePlayPage />,
           },
           {
-            path: '',
-            element: <GamePlayPage />,
+            path: 'ready',
+            element: <GameReadyPage />,
           },
           {
             path: 'scores',
@@ -52,6 +48,10 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: '*',
+    element: <Navigate to="/games" />,
   },
 ]);
 

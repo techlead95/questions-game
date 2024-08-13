@@ -32,10 +32,12 @@ export default function GamePlayPage() {
         <>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <div className="text-right">
-                Question {questionNumber} of {activeGame.question_count}
+              <div className="space-y-2">
+                <div className="text-right">
+                  Question {questionNumber} of {activeGame.question_count}
+                </div>
+                <Progress value={(tick * 100) / question.seconds} />
               </div>
-              <Progress value={(tick * 100) / question.seconds} />
               <FormField
                 control={form.control}
                 name="answer"

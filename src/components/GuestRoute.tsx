@@ -7,7 +7,7 @@ export default function GuestRoute({ children }: PropsWithChildren<{}>) {
   const currentPlayer = useStore((state) => state.currentPlayer);
 
   if (currentPlayer) {
-    return <Navigate to="/" />;
+    return <Navigate to="/games" />;
   }
 
   return children;
