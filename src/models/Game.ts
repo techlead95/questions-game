@@ -1,8 +1,8 @@
 export enum GameState {
-  Waiting = "waiting",
-  Countdown = "countdown",
-  Question = "question",
-  Ended = "ended",
+  Waiting = 'waiting',
+  Countdown = 'countdown',
+  Question = 'question',
+  Ended = 'ended',
 }
 
 export default interface Game {

@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 
-import Event from '@/models/Event';
+import WorldEvent from '@/models/WorldEvent';
 
 import useStore from '@/stores/useStore';
 
 export default function useSubcribeEvent(
-  callback: (lastEventWorldEvent) => void,
+  callback: (lastEvent: WorldEvent) => void,
 ) {
   useEffect(
     () =>
