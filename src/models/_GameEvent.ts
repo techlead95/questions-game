@@ -1,27 +1,27 @@
-import { BaseEvent } from "./Event";
-import { GameState } from "./Game";
-import GameQuestion from "./GameQuestion";
-import PlayerScore from "./PlayerScore";
+import { BaseEvent } from './Event';
+import { GameState } from './_Game';
+import GameQuestion from './GameQuestion';
+import PlayerScore from './PlayerScore';
 
 interface BaseGameEvent extends BaseEvent {
   id: string;
 }
 
 export enum GameEventType {
-  Create = "game_create",
-  StateChange = "game_state_change",
-  PlayerCount = "game_player_count",
-  Destroy = "game_destroy",
-  Start = "game_start",
-  End = "game_end",
-  Countdown = "game_countdown",
-  Question = "game_question",
-  PlayerEnter = "game_player_enter",
-  PlayerJoin = "game_player_join",
-  PlayerReady = "game_player_ready",
-  PlayerLeave = "game_player_leave",
-  PlayerCorrect = "game_player_correct",
-  PlayerIncorrect = "game_player_incorrect",
+  Create = 'game_create',
+  StateChange = 'game_state_change',
+  PlayerCount = 'game_player_count',
+  Destroy = 'game_destroy',
+  Start = 'game_start',
+  End = 'game_end',
+  Countdown = 'game_countdown',
+  Question = 'game_question',
+  PlayerEnter = 'game_player_enter',
+  PlayerJoin = 'game_player_join',
+  PlayerReady = 'game_player_ready',
+  PlayerLeave = 'game_player_leave',
+  PlayerCorrect = 'game_player_correct',
+  PlayerIncorrect = 'game_player_incorrect',
 }
 
 interface GameEventCreate extends BaseGameEvent {
