@@ -1,6 +1,6 @@
 ### How to run the project
-* Run docker containers using `docker compose up`.
-* Visit `http://localhost/` in the browser.
+* Run Docker containers using `docker compose up`.
+* Visit `http://localhost/` in your browser.
 
 ### Libraries
 * UI library: Shadcn for accessibility, customizability and Tailwind compatibility.
