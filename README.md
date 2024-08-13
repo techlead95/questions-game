@@ -1,4 +1,4 @@
-Real-time quiz game using React.js and WebSocket
+Real-time quiz game using WebSocket, Zustand, shadcn/ui, React Hook Form, and Zod
 
 # How to run the project
 * Run Docker containers using `docker compose up`.
