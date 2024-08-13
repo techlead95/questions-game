@@ -1,3 +1,22 @@
+Real-time quiz game using React.js and WebSocket
+
+### Screenshots
+
+Connect
+![image](https://github.com/user-attachments/assets/4d3015de-030c-4564-a3cf-7ee595a7da19)
+
+List
+![image](https://github.com/user-attachments/assets/fef5643e-78fd-477f-9a54-2fcbafa27543)
+
+Ready
+![image](https://github.com/user-attachments/assets/63835480-4a3b-4d32-a87b-5b218462e2ae)
+
+Play
+![image](https://github.com/user-attachments/assets/ef2a8a1c-2752-4108-89ae-c8f1d38963b2)
+
+Result
+![image](https://github.com/user-attachments/assets/6576bb5a-a78d-42bd-bd10-328d1ce30207)
+
 ### How to run the project
 * Run Docker containers using `docker compose up`.
 * Visit `http://localhost/` in your browser.
