@@ -1,4 +1,5 @@
 import { Axios } from 'axios';
+
 import Game from './models/Game';
 
 export class Api {

@@ -1,5 +1,6 @@
-import { PropsWithChildren } from "react";
-import useHandleError from "src/hooks/useHandleError";
+import { PropsWithChildren } from 'react';
+
+import useHandleError from '@/hooks/useHandleError';
 
 interface Props {
   title: String;

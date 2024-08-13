@@ -1,9 +1,9 @@
-import { BaseEvent } from './Event';
+import { BaseWorldEvent } from './WorldEvent';
 import { GameState } from './Game';
 import GameQuestion from './GameQuestion';
 import PlayerScore from './PlayerScore';
 
-interface BaseGameEvent extends BaseEvent {
+interface BaseGameEvent extends BaseWorldEvent {
   id: string;
 }
 

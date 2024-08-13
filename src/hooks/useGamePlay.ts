@@ -1,19 +1,23 @@
-import useGameId from "./useGameId";
-import { useToast } from "src/components/ui/use-toast";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useState } from "react";
-import useAnswerQuestion from "./useAnswerQuestion";
-import GameQuestion from "src/models/GameQuestion";
-import { useNavigate } from "react-router-dom";
-import useStore from "src/stores/useStore";
-import useSubcribeEvent from "./useSubcribeEvent";
-import { GameEventType } from "src/models/GameEvent";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
+
+import { GameEventType } from '@/models/GameEvent';
+import GameQuestion from '@/models/GameQuestion';
+
+import { useToast } from '@/components/ui/use-toast';
+
+import useStore from '@/stores/useStore';
+
+import useAnswerQuestion from './useAnswerQuestion';
+import useGameId from './useGameId';
+import useSubcribeEvent from './useSubcribeEvent';
 
 const formSchema = z.object({
   answer: z.string().min(1, {
-    message: "Answer should be selected.",
+    message: 'Answer should be selected.',
   }),
 });
 
@@ -25,7 +29,7 @@ export default function useGamePlay() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      answer: "",
+      answer: '',
     },
   });
 
@@ -40,7 +44,7 @@ export default function useGamePlay() {
   useSubcribeEvent((lastEvent) => {
     if (lastEvent.type === GameEventType.Question) {
       setQuestion(lastEvent.payload);
-      form.reset({ answer: "" });
+      form.reset({ answer: '' });
       setTick(0);
       setQuestionNumber((prev) => prev + 1);
       setAsnwered(false);
@@ -56,7 +60,7 @@ export default function useGamePlay() {
     if (lastEvent.type === GameEventType.PlayerCorrect) {
       if (lastEvent.payload.player === currentPlayer) {
         toast({
-          description: "You answered correctly.",
+          description: 'You answered correctly.',
         });
       } else {
         toast({
@@ -70,7 +74,7 @@ export default function useGamePlay() {
       lastEvent.payload.player === currentPlayer
     ) {
       toast({
-        description: "You answered incorrectly.",
+        description: 'You answered incorrectly.',
       });
     }
   });

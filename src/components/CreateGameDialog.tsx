@@ -1,5 +1,10 @@
-import { z } from "zod";
-import { Button } from "./ui/button";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+import useCreateGame from '@/hooks/useCreateGame';
+
+import { Button } from './ui/button';
 import {
   Dialog,
   DialogContent,
@@ -7,7 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "./ui/dialog";
+} from './ui/dialog';
 import {
   Form,
   FormControl,
@@ -15,18 +20,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "./ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Input } from "./ui/input";
-import useCreateGame from "src/hooks/useCreateGame";
+} from './ui/form';
+import { Input } from './ui/input';
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Name is required." }),
+  name: z.string().min(1, { message: 'Name is required.' }),
   questionCount: z
     .number()
     .int()
-    .min(1, { message: "Question count should be greater than 0." }),
+    .min(1, { message: 'Question count should be greater than 0.' }),
 });
 
 interface Props {
@@ -40,7 +42,7 @@ export default function CreateGameDialog({ open, onOpenChange }: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      name: '',
       questionCount: 0,
     },
   });
@@ -83,7 +85,7 @@ export default function CreateGameDialog({ open, onOpenChange }: Props) {
                     <Input
                       type="number"
                       {...field}
-                      value={field.value || ""}
+                      value={field.value || ''}
                       pattern="[0-9]*"
                       onChange={(e) =>
                         e.target.validity.valid &&

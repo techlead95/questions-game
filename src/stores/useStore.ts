@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import Game from '@/models/Game';
 import PlayerCommand from '@/models/playerCommand';
 import PlayerScore from '@/models/PlayerScore';
+import WorldEvent from '@/models/WorldEvent';
 import { Api } from '@/api';
 import handleActiveGameEvents from './handleActiveGameEvent';
 import handleGamesEvent from './handleGamesEvent';
@@ -16,7 +17,7 @@ export enum ReadyState {
 
 export interface StoreState {
   readyState: ReadyState;
-  lastEvent: Event | null;
+  lastEvent: WorldEvent | null;
   currentPlayer: string;
   gamesById: Record<string, Game>;
   gamesLoaded: boolean;
@@ -35,7 +36,7 @@ const api = new Api('http://localhost:8080');
 const useStore = create<StoreState>((set, get) => {
   let socket: WebSocket;
 
-  const handleEvent = (event: Event) => {
+  const handleEvent = (event: WorldEvent) => {
     set({ lastEvent: event });
 
     handleGamesEvent(event, set, get);

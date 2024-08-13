@@ -1,6 +1,7 @@
-import { PropsWithChildren } from "react";
-import { Navigate } from "react-router-dom";
-import useStore from "src/stores/useStore";
+import { PropsWithChildren } from 'react';
+import { Navigate } from 'react-router-dom';
+
+import useStore from '@/stores/useStore';
 
 export default function ProtectedRoute({ children }: PropsWithChildren<{}>) {
   const currentPlayer = useStore((state) => state.currentPlayer);

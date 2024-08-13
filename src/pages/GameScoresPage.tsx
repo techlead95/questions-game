@@ -1,7 +1,8 @@
-import { useNavigate } from "react-router-dom";
-import PageActions from "src/components/PageActions";
-import PageLayout from "src/components/PageLayout";
-import { Button } from "src/components/ui/button";
+import { useNavigate } from 'react-router-dom';
+
+import PageActions from '@/components/PageActions';
+import PageLayout from '@/components/PageLayout';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -9,8 +10,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "src/components/ui/table";
-import useStore from "src/stores/useStore";
+} from '@/components/ui/table';
+
+import useStore from '@/stores/useStore';
 
 export default function GameScoresPage() {
   const activeGame = useStore((state) => state.activeGame);
@@ -18,7 +20,7 @@ export default function GameScoresPage() {
   const navigate = useNavigate();
 
   return (
-    <PageLayout title={`Game Scores: ${activeGame?.name ?? ""}`}>
+    <PageLayout title={`Game Scores: ${activeGame?.name ?? ''}`}>
       <Table>
         <TableHeader>
           <TableRow>
@@ -37,7 +39,7 @@ export default function GameScoresPage() {
       </Table>
 
       <PageActions>
-        <Button onClick={() => navigate("/games")}>Return</Button>
+        <Button onClick={() => navigate('/games')}>Return</Button>
       </PageActions>
     </PageLayout>
   );

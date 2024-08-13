@@ -1,6 +1,13 @@
-import { useNavigate } from "react-router-dom";
-import PageLayout from "src/components/PageLayout";
-import useStore from "src/stores/useStore";
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { GameEventType } from '@/models/GameEvent';
+
+import CenteredLoading from '@/components/CenteredLoading';
+import PageActions from '@/components/PageActions';
+import PageLayout from '@/components/PageLayout';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Table,
   TableBody,
@@ -8,17 +15,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "src/components/ui/table";
-import CenteredLoading from "src/components/CenteredLoading";
-import { Checkbox } from "src/components/ui/checkbox";
-import useReadyGame from "src/hooks/useReadyGame";
-import { Button } from "src/components/ui/button";
-import useStartGame from "src/hooks/useStartGame";
-import { useMemo } from "react";
-import useSubcribeEvent from "src/hooks/useSubcribeEvent";
-import { GameEventType } from "src/models/GameEvent";
-import useGameId from "src/hooks/useGameId";
-import PageActions from "src/components/PageActions";
+} from '@/components/ui/table';
+
+import useGameId from '@/hooks/useGameId';
+import useReadyGame from '@/hooks/useReadyGame';
+import useStartGame from '@/hooks/useStartGame';
+import useSubcribeEvent from '@/hooks/useSubcribeEvent';
+
+import useStore from '@/stores/useStore';
 
 export default function GameReadyPage() {
   const gameId = useGameId();
@@ -42,7 +46,7 @@ export default function GameReadyPage() {
   });
 
   return (
-    <PageLayout title={`Game: ${activeGame?.name ?? ""}`}>
+    <PageLayout title={`Game: ${activeGame?.name ?? ''}`}>
       {players.length ? (
         <>
           <Table>

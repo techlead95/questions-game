@@ -1,10 +1,11 @@
-import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
+
+import GuestRoute from './components/GuestRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 import ConnectPage from './pages/ConnectPage';
 import GameListPage from './pages/GameListPage';
-import ProtectedRoute from './components/ProtectedRoute';
-import GuestRoute from './components/GuestRoute';
-import GameReadyPage from './pages/GameReadyPage';
 import GamePlayPage from './pages/GamePlayPage';
+import GameReadyPage from './pages/GameReadyPage';
 import GameScoresPage from './pages/GameScoresPage';
 
 const router = createBrowserRouter([

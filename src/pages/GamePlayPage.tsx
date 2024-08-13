@@ -1,6 +1,6 @@
-import CenteredLoading from "src/components/CenteredLoading";
-import PageLayout from "src/components/PageLayout";
-import { Button } from "src/components/ui/button";
+import CenteredLoading from '@/components/CenteredLoading';
+import PageLayout from '@/components/PageLayout';
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -8,11 +8,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "src/components/ui/form";
-import { Label } from "src/components/ui/label";
-import { Progress } from "src/components/ui/progress";
-import { RadioGroup, RadioGroupItem } from "src/components/ui/radio-group";
-import useGamePlay from "src/hooks/useGamePlay";
+} from '@/components/ui/form';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+
+import useGamePlay from '@/hooks/useGamePlay';
 
 export default function GamePlayPage() {
   const {
@@ -26,7 +27,7 @@ export default function GamePlayPage() {
   } = useGamePlay();
 
   return (
-    <PageLayout title={`Game: ${activeGame?.name ?? ""}`}>
+    <PageLayout title={`Game: ${activeGame?.name ?? ''}`}>
       {activeGame && question ? (
         <>
           <Form {...form}>

@@ -1,9 +1,14 @@
-import { useState } from "react";
-import CenteredLoading from "src/components/CenteredLoading";
-import CreateGameDialog from "src/components/CreateGameDialog";
-import PageActions from "src/components/PageActions";
-import PageLayout from "src/components/PageLayout";
-import { Button } from "src/components/ui/button";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import { GameState } from '@/models/Game';
+import { GameEventType } from '@/models/GameEvent';
+
+import CenteredLoading from '@/components/CenteredLoading';
+import CreateGameDialog from '@/components/CreateGameDialog';
+import PageActions from '@/components/PageActions';
+import PageLayout from '@/components/PageLayout';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -11,13 +16,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "src/components/ui/table";
-import useJoinGame from "src/hooks/useJoinGame";
-import useStore from "src/stores/useStore";
-import { useNavigate } from "react-router-dom";
-import { GameEventType } from "src/models/GameEvent";
-import useSubcribeEvent from "src/hooks/useSubcribeEvent";
-import { GameState } from "src/models/Game";
+} from '@/components/ui/table';
+
+import useJoinGame from '@/hooks/useJoinGame';
+import useSubcribeEvent from '@/hooks/useSubcribeEvent';
+
+import useStore from '@/stores/useStore';
 
 export default function GameListPage() {
   const gamesLoaded = useStore((state) => state.gamesLoaded);

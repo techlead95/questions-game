@@ -1,9 +1,9 @@
 export enum PlayerCommandType {
-  Create = "create",
-  Join = "join",
-  Ready = "ready",
-  Start = "start",
-  Answer = "answer",
+  Create = 'create',
+  Join = 'join',
+  Ready = 'ready',
+  Start = 'start',
+  Answer = 'answer',
 }
 
 interface BasePlayerCommand {

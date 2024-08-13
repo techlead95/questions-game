@@ -1,10 +1,10 @@
-import { GameEventType } from "src/models/GameEvent";
+import { GameEventType } from "@/models/GameEvent";
 import { StoreState } from "./useStore";
-import Event from "src/models/Event";
-import { GameState } from "src/models/Game";
+import WorldEvent from "@/models/WorldEvent";
+import { GameState } from "@/models/Game";
 
 export default function handleActiveGameEvents(
-  event: Event,
+  event: WorldEvent,
   set: (state: Partial<StoreState>) => void,
   get: () => StoreState
 ) {

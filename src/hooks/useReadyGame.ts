@@ -1,6 +1,7 @@
-import { PlayerCommandType } from "src/models/PlayerCommand";
-import useStore from "src/stores/useStore";
-import { uuid } from "src/utils";
+import { PlayerCommandType } from '@/models/PlayerCommand';
+
+import useStore from '@/stores/useStore';
+import { uuid } from '@/utils';
 
 export default function useReadyGame() {
   const sendCommand = useStore((state) => state.sendCommand);

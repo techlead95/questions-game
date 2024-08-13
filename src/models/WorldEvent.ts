@@ -1,11 +1,11 @@
 import GameEvent, { GameEventType } from './GameEvent';
 import PlayerEvent, { PlayerEventType } from './PlayerEvent';
 
-export interface BaseEvent {
+export interface BaseWorldEvent {
   type: GameEventType | PlayerEventType;
   payload: unknown;
 }
 
-type Event = PlayerEvent | GameEvent;
+type WorldEvent = PlayerEvent | GameEvent;
 
-export default Event;
+export default WorldEvent;

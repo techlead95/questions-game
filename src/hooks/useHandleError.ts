@@ -1,6 +1,8 @@
-import { useEffect } from "react";
-import { useToast } from "src/components/ui/use-toast";
-import useStore from "src/stores/useStore";
+import { useEffect } from 'react';
+
+import { useToast } from '@/components/ui/use-toast';
+
+import useStore from '@/stores/useStore';
 
 export default function useHandleError() {
   const errorMessage = useStore((state) => state.errorMessage);
